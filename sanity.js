@@ -131,6 +131,60 @@ if (homeGrid) {
   });
 }
 
+// ── Team page ──
+const teamGrid = document.getElementById('team-grid');
+if (teamGrid) {
+  const query = encodeURIComponent(
+    `*[_type == "teamMember"] | order(order asc) { name, role, bio, photo, links }`
+  );
+  fetch(`${SANITY_API_URL}?query=${query}`)
+    .then(r => r.json())
+    .then(data => {
+      const members = data.result || [];
+      teamGrid.innerHTML = '';
+      if (!members.length) {
+        teamGrid.innerHTML = '<p style="color:var(--muted)">No team members yet.</p>';
+        return;
+      }
+      members.forEach(m => {
+        const photoUrl = m.photo?.asset?._ref
+          ? sanityImageUrl(m.photo.asset._ref)
+          : null;
+
+        const links = [
+          m.links?.twitter  ? `<a href="${m.links.twitter}"  target="_blank" rel="noopener">Twitter</a>`  : '',
+          m.links?.linkedin ? `<a href="${m.links.linkedin}" target="_blank" rel="noopener">LinkedIn</a>` : '',
+          m.links?.github   ? `<a href="${m.links.github}"   target="_blank" rel="noopener">GitHub</a>`   : ''
+        ].filter(Boolean).join('');
+
+        const card = document.createElement('div');
+        card.className = 'team-page-card';
+        card.innerHTML = `
+          ${photoUrl
+            ? `<img src="${photoUrl}" alt="${m.name}" class="team-photo" />`
+            : `<div class="avatar">${m.name?.[0] || '?'}</div>`
+          }
+          <div class="team-page-info">
+            <h3>${m.name}</h3>
+            <p class="team-role">${m.role}</p>
+            ${m.bio ? `<p class="team-bio">${m.bio}</p>` : ''}
+            ${links ? `<div class="team-links">${links}</div>` : ''}
+          </div>
+        `;
+        teamGrid.appendChild(card);
+      });
+    })
+    .catch(() => {
+      teamGrid.innerHTML = '<p style="color:var(--muted)">Failed to load team.</p>';
+    });
+}
+
+function sanityImageUrl(ref) {
+  // ref format: image-abc123-800x600-jpg
+  const [, id, dimensions, ext] = ref.split('-');
+  return `https://cdn.sanity.io/images/${SANITY_PROJECT_ID}/${SANITY_DATASET}/${id}-${dimensions}.${ext}`;
+}
+
 // ── Single post page ──
 const postContent = document.getElementById('post-content');
 const relatedGrid = document.getElementById('related-grid');

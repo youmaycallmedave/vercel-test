@@ -431,6 +431,81 @@ main {
   display: none;
 }
 
+/* ── TEAM PAGE ── */
+.team-page-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 64px;
+}
+
+.team-page-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  transition: border-color 0.2s;
+}
+
+.team-page-card:hover {
+  border-color: var(--accent);
+}
+
+.team-photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.team-page-card .avatar {
+  flex-shrink: 0;
+}
+
+.team-page-info h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.team-role {
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.team-bio {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.team-links {
+  display: flex;
+  gap: 12px;
+}
+
+.team-links a {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  border-radius: 20px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.team-links a:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
 /* ── POST PAGE ── */
 .post-article {
   margin-bottom: 64px;
