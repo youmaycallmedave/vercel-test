@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Site — Blog</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">MySite</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+        <li><a href="contacts.html">Contacts</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <h1>Blog</h1>
+      <p>Thoughts, guides, and updates from the team.</p>
+    </section>
+
+    <section class="blog-filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="Design">Design</button>
+      <button class="filter-btn" data-filter="Deploy">Deploy</button>
+      <button class="filter-btn" data-filter="Tips">Tips</button>
+      <button class="filter-btn" data-filter="Dev">Dev</button>
+    </section>
+
+    <section class="blog-list">
+
+      <a href="#post-1" class="blog-card-full" id="post-1" data-tag="Design">
+        <div class="blog-card-full-meta">
+          <div class="blog-tag">Design</div>
+          <div class="blog-meta"><span>Mar 27, 2026</span><span>4 min read</span></div>
+        </div>
+        <div class="blog-card-full-body">
+          <h2>How to build a clean dark UI from scratch</h2>
+          <p>A walkthrough of the design decisions behind this template — typography, spacing, and color. We dive into why dark themes require extra attention to contrast ratios and how to pick a palette that doesn't feel flat.</p>
+        </div>
+        <span class="read-more">Read post →</span>
+      </a>
+
+      <a href="#post-2" class="blog-card-full" id="post-2" data-tag="Deploy">
+        <div class="blog-card-full-meta">
+          <div class="blog-tag">Deploy</div>
+          <div class="blog-meta"><span>Mar 20, 2026</span><span>6 min read</span></div>
+        </div>
+        <div class="blog-card-full-body">
+          <h2>Vercel vs Netlify: which one to pick in 2026</h2>
+          <p>We compared both platforms on speed, developer experience, and pricing. Spoiler: it depends on your stack. Here's a breakdown of when each platform shines and what the gotchas are.</p>
+        </div>
+        <span class="read-more">Read post →</span>
+      </a>
+
+      <a href="#post-3" class="blog-card-full" id="post-3" data-tag="Tips">
+        <div class="blog-card-full-meta">
+          <div class="blog-tag">Tips</div>
+          <div class="blog-meta"><span>Mar 14, 2026</span><span>3 min read</span></div>
+        </div>
+        <div class="blog-card-full-body">
+          <h2>5 things every static site needs before going live</h2>
+          <p>Meta tags, favicon, 404 page, analytics, and one more thing most people forget. A quick checklist to run through before you share your URL with the world.</p>
+        </div>
+        <span class="read-more">Read post →</span>
+      </a>
+
+      <a href="#post-4" class="blog-card-full" id="post-4" data-tag="Dev">
+        <div class="blog-card-full-meta">
+          <div class="blog-tag">Dev</div>
+          <div class="blog-meta"><span>Mar 8, 2026</span><span>5 min read</span></div>
+        </div>
+        <div class="blog-card-full-body">
+          <h2>CSS custom properties: the only guide you need</h2>
+          <p>CSS variables have been around for a while but most devs still underuse them. Here's how to structure a token system that scales from a small project to a full design system.</p>
+        </div>
+        <span class="read-more">Read post →</span>
+      </a>
+
+      <a href="#post-5" class="blog-card-full" id="post-5" data-tag="Deploy">
+        <div class="blog-card-full-meta">
+          <div class="blog-tag">Deploy</div>
+          <div class="blog-meta"><span>Feb 28, 2026</span><span>4 min read</span></div>
+        </div>
+        <div class="blog-card-full-body">
+          <h2>Setting up a custom domain on Vercel in 10 minutes</h2>
+          <p>Bought a domain and not sure how to connect it? We walk through the DNS settings, SSL cert provisioning, and the one record that trips everyone up.</p>
+        </div>
+        <span class="read-more">Read post →</span>
+      </a>
+
+      <a href="#post-6" class="blog-card-full" id="post-6" data-tag="Design">
+        <div class="blog-card-full-meta">
+          <div class="blog-tag">Design</div>
+          <div class="blog-meta"><span>Feb 20, 2026</span><span>7 min read</span></div>
+        </div>
+        <div class="blog-card-full-body">
+          <h2>Why your typography is killing your design</h2>
+          <p>Font size, line height, letter spacing — these three properties do 80% of the visual work on any webpage. A deep dive into getting them right for both desktop and mobile.</p>
+        </div>
+        <span class="read-more">Read post →</span>
+      </a>
+
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 MySite. Built for Vercel testing.</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

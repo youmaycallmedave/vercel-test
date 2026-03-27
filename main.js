@@ -8,6 +8,20 @@ function handleSubmit(e) {
   }
 }
 
+// Blog filters
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const filter = btn.dataset.filter;
+    document.querySelectorAll(".blog-card-full").forEach(card => {
+      const match = filter === "all" || card.dataset.tag === filter;
+      card.classList.toggle("hidden", !match);
+    });
+  });
+});
+
 // Highlight active nav link based on current page
 document.querySelectorAll("nav a").forEach(link => {
   if (link.href === window.location.href) {
