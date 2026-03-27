@@ -131,6 +131,71 @@ if (homeGrid) {
   });
 }
 
+// ── Homepage slider ──
+const sliderTrack = document.getElementById('slider-track');
+if (sliderTrack) {
+  const query = encodeURIComponent(
+    `*[_type == "slide"] | order(order asc) { title, subtitle, image, buttonText, buttonUrl }`
+  );
+  fetch(`${SANITY_API_URL}?query=${query}`)
+    .then(r => r.json())
+    .then(data => {
+      const slides = data.result || [];
+      if (!slides.length) {
+        document.getElementById('hero-slider').innerHTML = `
+          <div class="slide active">
+            <div class="slide-content">
+              <h1>Welcome to MySite</h1>
+              <p>Add slides in Sanity Studio to customize this section.</p>
+              <a href="about.html" class="btn">Learn more</a>
+            </div>
+          </div>`;
+        return;
+      }
+
+      const dots = document.getElementById('slider-dots');
+      let current = 0;
+
+      slides.forEach((slide, i) => {
+        const imgUrl = slide.image?.asset?._ref
+          ? sanityImageUrl(slide.image.asset._ref) + '?w=1400&fit=crop'
+          : null;
+
+        const el = document.createElement('div');
+        el.className = 'slide' + (i === 0 ? ' active' : '');
+        if (imgUrl) el.style.backgroundImage = `url(${imgUrl})`;
+        el.innerHTML = `
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <h1>${slide.title}</h1>
+            ${slide.subtitle ? `<p>${slide.subtitle}</p>` : ''}
+            ${slide.buttonText ? `<a href="${slide.buttonUrl || '#'}" class="btn">${slide.buttonText}</a>` : ''}
+          </div>
+        `;
+        sliderTrack.appendChild(el);
+
+        const dot = document.createElement('button');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => goTo(i));
+        dots.appendChild(dot);
+      });
+
+      function goTo(n) {
+        sliderTrack.children[current].classList.remove('active');
+        dots.children[current].classList.remove('active');
+        current = (n + slides.length) % slides.length;
+        sliderTrack.children[current].classList.add('active');
+        dots.children[current].classList.add('active');
+      }
+
+      document.getElementById('slider-prev').addEventListener('click', () => goTo(current - 1));
+      document.getElementById('slider-next').addEventListener('click', () => goTo(current + 1));
+
+      // Auto-advance every 5s
+      setInterval(() => goTo(current + 1), 5000);
+    });
+}
+
 // ── Team page ──
 const teamGrid = document.getElementById('team-grid');
 if (teamGrid) {
