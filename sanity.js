@@ -18,9 +18,43 @@ async function fetchPosts(limit = null) {
   return data.result || [];
 }
 
+async function fetchPostBySlug(slug) {
+  const query = encodeURIComponent(
+    `*[_type == "post" && slug.current == "${slug}"][0] { title, slug, tag, publishedAt, readTime, excerpt, body }`
+  );
+  const res = await fetch(`${SANITY_API_URL}?query=${query}`);
+  const data = await res.json();
+  return data.result || null;
+}
+
+// Portable Text → HTML (handles bold, italic, links, headings)
+function blocksToHtml(blocks) {
+  if (!blocks || !blocks.length) return '';
+  return blocks.map(block => {
+    if (block._type !== 'block') return '';
+    const tag = block.style === 'h1' ? 'h1'
+      : block.style === 'h2' ? 'h2'
+      : block.style === 'h3' ? 'h3'
+      : block.style === 'h4' ? 'h4'
+      : block.style === 'blockquote' ? 'blockquote'
+      : 'p';
+
+    const text = (block.children || []).map(span => {
+      let t = span.text || '';
+      t = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      if (span.marks?.includes('strong')) t = `<strong>${t}</strong>`;
+      if (span.marks?.includes('em')) t = `<em>${t}</em>`;
+      if (span.marks?.includes('code')) t = `<code>${t}</code>`;
+      return t;
+    }).join('');
+
+    return `<${tag}>${text}</${tag}>`;
+  }).join('\n');
+}
+
 function createBlogCardFull(post) {
   const el = document.createElement('a');
-  el.href = `blog.html#${post.slug?.current || ''}`;
+  el.href = `post.html?slug=${post.slug?.current || ''}`;
   el.className = 'blog-card-full';
   el.dataset.tag = post.tag || '';
   el.innerHTML = `
@@ -42,7 +76,7 @@ function createBlogCardFull(post) {
 
 function createBlogCard(post) {
   const el = document.createElement('a');
-  el.href = `blog.html#${post.slug?.current || ''}`;
+  el.href = `post.html?slug=${post.slug?.current || ''}`;
   el.className = 'blog-card';
   el.innerHTML = `
     <div class="blog-tag">${post.tag || ''}</div>
@@ -56,7 +90,7 @@ function createBlogCard(post) {
   return el;
 }
 
-// Blog page
+// ── Blog list page ──
 const blogList = document.getElementById('blog-list');
 if (blogList) {
   fetchPosts().then(posts => {
@@ -67,7 +101,6 @@ if (blogList) {
     }
     posts.forEach(post => blogList.appendChild(createBlogCardFull(post)));
 
-    // re-init filters after posts load
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -83,7 +116,7 @@ if (blogList) {
   });
 }
 
-// Homepage — latest 3 posts
+// ── Homepage latest 3 posts ──
 const homeGrid = document.getElementById('home-blog-grid');
 if (homeGrid) {
   fetchPosts(3).then(posts => {
@@ -96,4 +129,57 @@ if (homeGrid) {
   }).catch(() => {
     homeGrid.innerHTML = '<p style="color:var(--muted)">Failed to load posts.</p>';
   });
+}
+
+// ── Single post page ──
+const postContent = document.getElementById('post-content');
+const relatedGrid = document.getElementById('related-grid');
+
+if (postContent) {
+  const slug = new URLSearchParams(window.location.search).get('slug');
+
+  if (!slug) {
+    postContent.innerHTML = '<p style="color:var(--muted)">Post not found.</p>';
+  } else {
+    fetchPostBySlug(slug).then(post => {
+      if (!post) {
+        postContent.innerHTML = '<p style="color:var(--muted)">Post not found.</p>';
+        return;
+      }
+
+      document.title = `MySite — ${post.title}`;
+
+      postContent.innerHTML = `
+        <article class="post-article">
+          <div class="post-header">
+            <div class="post-header-meta">
+              <div class="blog-tag">${post.tag || ''}</div>
+              <div class="blog-meta">
+                <span>${formatDate(post.publishedAt)}</span>
+                <span>${post.readTime || ''} min read</span>
+              </div>
+            </div>
+            <h1>${post.title}</h1>
+            <p class="post-excerpt">${post.excerpt || ''}</p>
+          </div>
+          <div class="post-body">
+            ${post.body ? blocksToHtml(post.body) : '<p style="color:var(--muted)">No content yet.</p>'}
+          </div>
+        </article>
+      `;
+    }).catch(() => {
+      postContent.innerHTML = '<p style="color:var(--muted)">Failed to load post.</p>';
+    });
+
+    // Related posts (all except current)
+    fetchPosts(4).then(posts => {
+      const others = posts.filter(p => p.slug?.current !== slug).slice(0, 3);
+      relatedGrid.innerHTML = '';
+      if (!others.length) {
+        relatedGrid.innerHTML = '<p style="color:var(--muted)">No other posts yet.</p>';
+        return;
+      }
+      others.forEach(p => relatedGrid.appendChild(createBlogCard(p)));
+    });
+  }
 }

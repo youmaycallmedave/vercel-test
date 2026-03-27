@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Site — Post</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">MySite</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+        <li><a href="contacts.html">Contacts</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div id="post-content">
+      <div class="blog-loading">Loading post...</div>
+    </div>
+
+    <section class="related-posts">
+      <div class="section-header">
+        <h2>More posts</h2>
+        <a href="blog.html" class="see-all">See all →</a>
+      </div>
+      <div class="blog-grid" id="related-grid">
+        <div class="blog-loading">Loading...</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 MySite. Built for Vercel testing.</p>
+  </footer>
+
+  <script src="sanity.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
