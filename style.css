@@ -343,6 +343,12 @@ main {
   margin-top: 4px;
 }
 
+.blog-loading {
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 24px 0;
+}
+
 /* ── BLOG PAGE ── */
 .blog-filters {
   display: flex;

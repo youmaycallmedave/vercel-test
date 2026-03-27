@@ -49,34 +49,8 @@
         <h2>Latest Posts</h2>
         <a href="blog.html" class="see-all">See all →</a>
       </div>
-      <div class="blog-grid">
-        <a href="blog.html#post-1" class="blog-card">
-          <div class="blog-tag">Design</div>
-          <h3>How to build a clean dark UI from scratch</h3>
-          <p>A walkthrough of the design decisions behind this template — typography, spacing, and color.</p>
-          <div class="blog-meta">
-            <span>Mar 27, 2026</span>
-            <span>4 min read</span>
-          </div>
-        </a>
-        <a href="blog.html#post-2" class="blog-card">
-          <div class="blog-tag">Deploy</div>
-          <h3>Vercel vs Netlify: which one to pick in 2026</h3>
-          <p>We compared both platforms on speed, DX, and pricing. Here's what we found.</p>
-          <div class="blog-meta">
-            <span>Mar 20, 2026</span>
-            <span>6 min read</span>
-          </div>
-        </a>
-        <a href="blog.html#post-3" class="blog-card">
-          <div class="blog-tag">Tips</div>
-          <h3>5 things every static site needs before going live</h3>
-          <p>Meta tags, favicon, 404 page, analytics, and one more thing most people forget.</p>
-          <div class="blog-meta">
-            <span>Mar 14, 2026</span>
-            <span>3 min read</span>
-          </div>
-        </a>
+      <div class="blog-grid" id="home-blog-grid">
+        <div class="blog-loading">Loading posts...</div>
       </div>
     </section>
 
@@ -99,6 +73,7 @@
     <p>© 2026 MySite. Built for Vercel testing.</p>
   </footer>
 
+  <script src="sanity.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
