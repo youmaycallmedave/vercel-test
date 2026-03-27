@@ -1,3 +1,13 @@
+// Contact form handler
+function handleSubmit(e) {
+  e.preventDefault();
+  const msg = document.getElementById("success-msg");
+  if (msg) {
+    msg.style.display = "block";
+    e.target.reset();
+  }
+}
+
 // Highlight active nav link based on current page
 document.querySelectorAll("nav a").forEach(link => {
   if (link.href === window.location.href) {
